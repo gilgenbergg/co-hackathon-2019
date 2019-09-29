@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
       
    
-    const response = this.http.get("http://localhost:8080/co-backend/example/welcome").subscribe(
+  const response = this.http.get("/co-backend/example/welcome").subscribe(
             (res) => this.fetchData(res), 
             (err) => this.text = errText,
             () => console.log('complete')
