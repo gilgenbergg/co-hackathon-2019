@@ -13,13 +13,13 @@ git clone https://github.com/DodoTheDeveloper/co-hackathon-2019.git
 
 // Getting the backend running
 cd ~/<YourWorkspace>/co-hackathon-2019/co-backend 
-mvn clean install
+mvn clean install // invoke every time you make changes to the sorce
 mvn tomee:run // starts a tomEE server on http://localhost:8080
 
 // Getting the backend running
 cd ~/<YourWorkspace>/co-hackathon-2019/co-frontend
 npm install // installs all node modules
-ng serve // builds and serves the angular to http://localhost:4200
+npm start // use this not ng serve or else you will have issues with the backend (proxy config)
 ```
 Backend should now be runnning on http://localhost:8080 and the frontend on http://localhost:4200
 
