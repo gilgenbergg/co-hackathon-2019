@@ -1,6 +1,6 @@
 # co-hackathon-2019
 
-##Installing dependencies (VM has those installed)
+## Installing dependencies (VM has those installed)
 1. Install Java Open JDK (NOT JRE) 8 https://openjdk.java.net/install/index.html
 2. Install Maven 3.6.x https://maven.apache.org/download.cgi
 3. Install Node.js LTS https://nodejs.org/en/download/
