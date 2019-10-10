@@ -6,6 +6,10 @@
 3. Install Node.js LTS https://nodejs.org/en/download/
 4. Install Angular https://cli.angular.io/
 
+Optional:
+Recommended IDE https://code.visualstudio.com/
+Recommended REST Client: https://support.insomnia.rest/
+
 ```
 // Cloning the repository <YourWorkspace> = workspace on VM
 cd ~/<YourWorkspace>
