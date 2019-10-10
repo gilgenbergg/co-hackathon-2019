@@ -23,4 +23,4 @@ npm start // use this not ng serve or else you will have issues with the backend
 ```
 Backend should now be runnning on http://localhost:8080 and the frontend on http://localhost:4200
 
-Please check your Studo & Telegram for additional information during the hackathon.
+Please check this page for additional information during the hackathon.
