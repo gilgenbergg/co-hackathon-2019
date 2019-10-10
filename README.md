@@ -13,7 +13,7 @@ git clone https://github.com/DodoTheDeveloper/co-hackathon-2019.git
 
 // Getting the backend running
 cd ~/<YourWorkspace>/co-hackathon-2019/co-backend 
-mvn clean install // invoke every time you make changes to the sorce
+mvn clean install // invoke every time you make changes to the source code
 mvn tomee:run // starts a tomEE server on http://localhost:8080
 
 // Getting the backend running
