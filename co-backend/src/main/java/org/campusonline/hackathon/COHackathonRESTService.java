@@ -22,7 +22,10 @@ public class COHackathonRESTService {
                         @FormParam("password") String password) {
 
         User u = UserDao.instance.findUser(login);
-        if (u != null && u.password == password) {
+        if (u != null) {
+            System.out.println("user was found");
+        }
+        if (u != null && u.password.equals(password)) {
             // generate token
             String token = UUID.randomUUID().toString();
             UserDao.instance.rememberLoginToken(token, u);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ export class AuthenticationService {
 
   private currentUserSubject: BehaviorSubject<any>;
     public currentUser: Observable<any>;
-    private urlbase: string = 'http://localhost:8080/co-backend/';
+    private urlbase: string = '/co-backend/';
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
@@ -25,14 +25,39 @@ export class AuthenticationService {
       localStorage.setItem('currentUser', JSON.stringify(true));
     }
 
+    register(username, password, email) {
+
+    }
+
     login(username, password) {
-        return this.http.post<any>(this.urlbase + `users/authenticate`, { username, password })
-            .pipe(map(user => {
+
+      const body = new HttpParams()
+    .set('login', username)
+    .set('password', password);
+      let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+
+        return this.http.post<any>(this.urlbase + `login`, body.toString(), {
+          headers: new HttpHeaders()
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+        }).subscribe((data: any) => {
+          console.log(data);
+          if (data.success) {
+            localStorage.setItem('currentUser', JSON.stringify(data.token));
+            this.currentUserSubject.next(data);
+            window.location.href = ""
+          }
+        })  ;
+        /*
+            .pipe(
+              map( response => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
+                localStorage.setItem('currentUser', JSON.stringify(response));
+                this.currentUserSubject.next(response);
+                return response;
+              })// Subscribe
+              //,catchError( error => {})
+            );
+            */
     }
 
     logout() {
