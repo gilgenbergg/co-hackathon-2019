@@ -11,77 +11,40 @@ import java.text.SimpleDateFormat;
 
     @Path("/")
 public class COHackathonRESTService {
-
-        public class User {
-            private String login;
-            private String password;
-            private String email;
-
-            User(String l, String p, String e) {
-                this.login = l;
-                this.password = p;
-                this.email = e;
-            }
-
-
-        }
-
+        
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
     @Path("login")
-    public Response newTodo(@FormParam("login") String login,
+
+    public Response checkLogon(@FormParam("login") String login,
                         @FormParam("password") String password,
-                            @FormParam("email") String email) {
+                               @FormParam("email") String email ) {
 
-        List<User> fakeBase = new ArrayList<>();
-        User admin = new User("admin", "12345", "admin@mail.at");
-        fakeBase.add(admin);
+        User u = UserDao.instance.findUser(login);
+        if (u != null && u.password.equals(password)) {
+            // generate token
+            String token = UUID.randomUUID().toString();
+            UserDao.instance.rememberLoginToken(token, u);
 
-        if (login.equals("")) {
-            for (User item:
-                    fakeBase) {
-                if ((item.email.equals(email)) && (item.password.equals(password))) {
-                    final JsonObject jsonObject = Json.createObjectBuilder()
-                            .add("Success", login).build();
-                    return Response.status(Response.Status.OK)
-                            .entity(jsonObject)
-                            .build();
-                }
-                else {
-                    final JsonObject jsonObject = Json.createObjectBuilder()
-                            .add("Failed authorization", login).build();
-                    return Response.status(Response.Status.NOT_ACCEPTABLE)
-                            .entity(jsonObject)
-                            .build();
-                }
-            }
+            final JsonObject jsonObject = Json.createObjectBuilder()
+                    .add("success", true)
+                    .add("token", token)
+                    .build();
+
+            return Response.status(Response.Status.OK)
+                    .entity(jsonObject)
+                    .build();
         }
-
         else {
-            for (User item:
-                    fakeBase) {
-                if ((item.login.equals(login)) && (item.password.equals(password))) {
-                    final JsonObject jsonObject = Json.createObjectBuilder()
-                            .add("Success", login).build();
-                    return Response.status(Response.Status.OK)
-                            .entity(jsonObject)
-                            .build();
-                }
-                else {
-                    final JsonObject jsonObject = Json.createObjectBuilder()
-                            .add("Failed authorization", login).build();
-                    return Response.status(Response.Status.NOT_ACCEPTABLE)
-                            .entity(jsonObject)
-                            .build();
-                }
-            }
+            final JsonObject jsonObject = Json.createObjectBuilder()
+                    .add("success", false)
+                    .add("token", "")
+                    .build();
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity(jsonObject)
+                    .build();
         }
-        final JsonObject jsonObject = Json.createObjectBuilder()
-                .add("Failed authorization", login).build();
-        return Response.status(Response.Status.NOT_ACCEPTABLE)
-                .entity(jsonObject)
-                .build();
     }
 
     @GET
