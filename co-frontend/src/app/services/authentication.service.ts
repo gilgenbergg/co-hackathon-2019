@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthenticationService {
   public currentUser: Observable<any>;
   private urlbase: string = '/co-backend/';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -58,7 +59,7 @@ export class AuthenticationService {
       if (data.success) {
         localStorage.setItem('currentUser', JSON.stringify(data.token));
         this.currentUserSubject.next(data);
-        window.location.href = ""
+        this.router.navigate(['links']);
       }
     });
     /*

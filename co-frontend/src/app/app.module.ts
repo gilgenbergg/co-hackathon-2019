@@ -9,13 +9,15 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './guards/index';
 import { AuthenticationService } from './services';
+import { LinksComponent } from './components/links/links.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    LinksComponent
   ],
   imports: [
     BrowserModule,

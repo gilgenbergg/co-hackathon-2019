@@ -29,7 +29,8 @@ public enum UserDao {
 
     public User findUser(String logon) {
         for (int i = 0; i < index; i++) {
-            if (registeredUsers[i].logon.equals(logon)){
+            if (registeredUsers[i].login.equals(logon) ||
+                    registeredUsers[i].email.equals(logon)){
                 return registeredUsers[i];
             }
         }
