@@ -2,7 +2,9 @@ package org.campusonline.hackathon;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.ws.rs.*;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
@@ -86,6 +88,28 @@ public class COHackathonRESTService {
                     .build();
         }
 
+
+    }
+
+
+    @GET
+    @Path("links")
+    @Produces("application/json")
+    public Response getLinkService() {
+
+        Map<String, String> links = new HashMap<>();
+        links.put("home", "/");
+        links.put("login", "login");
+        links.put("register", "register");
+
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        links.forEach( (key, value) -> jsonObjectBuilder.add(key, value));
+        final JsonObject jsonObject = jsonObjectBuilder.build();
+
+        return Response.status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", "*")
+                .entity(jsonObject)
+                .build();
 
     }
 }
