@@ -30,5 +30,5 @@ Backend should now be runnning on http://localhost:8080 and the frontend on http
 
 Please check this page for additional information during the hackathon.
 
-##Highscore
+## Highscore
 https://docs.google.com/spreadsheets/d/1g6iL9sdqq4htWLn6ZNNJdkmbp1Rann3Gj-rlJjhfss0/edit?usp=sharing
