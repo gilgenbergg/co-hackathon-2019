@@ -2,10 +2,8 @@ package org.campusonline.hackathon;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import java.util.*;
@@ -13,6 +11,23 @@ import java.text.SimpleDateFormat;
 
 @Path("/")
 public class COHackathonRESTService {
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces("application/json")
+    @Path("log")
+    public Response newTodo(@FormParam("login") String login,
+                        @FormParam("password") String password) {
+
+        final JsonObject jsonObject = Json.createObjectBuilder()
+                .add("text",login)
+                .add("password",password)
+                .build();
+
+        return Response.status(Response.Status.OK)
+                .entity(jsonObject)
+                .build();
+    }
 
     @GET
     @Path("time")
@@ -59,7 +74,6 @@ public class COHackathonRESTService {
                         .build();
             }
         }
-    }
 
     @POST
     @Path("secret")
