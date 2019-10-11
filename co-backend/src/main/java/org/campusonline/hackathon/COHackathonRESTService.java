@@ -13,6 +13,39 @@ import java.text.SimpleDateFormat;
 public class COHackathonRESTService {
 
 
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces("application/json")
+    @Path("register")
+    public Response registerUser(@FormParam("login") String login,
+                                 @FormParam("password") String password,
+                                @FormParam("email") String email) {
+
+        User u = new User (login, password);
+
+        User o = UserDao.instance.findUser(login);
+
+        if (o != null) {
+
+            final JsonObject jsonObject = Json.createObjectBuilder()
+                    .add("success", false)
+                    .build();
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(jsonObject)
+                    .build();
+        }
+
+        UserDao.instance.registerUser(u);
+
+        final JsonObject jsonObject = Json.createObjectBuilder()
+                .add("success", true)
+                .build();
+        return Response.status(Response.Status.OK)
+                .entity(jsonObject)
+                .build();
+
+    }
+
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
