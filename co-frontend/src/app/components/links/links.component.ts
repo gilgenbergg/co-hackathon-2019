@@ -10,12 +10,16 @@ export class LinksComponent implements OnInit {
 
   constructor(private linksService: LinksService) { }
 
-  my_links = []
+  keys = []
+  data = []
 
   ngOnInit() {
     this.linksService.sendGetRequest().subscribe((data: any[])=>{
       console.log(data);
-      this.my_links = data;
+      this.data = data;
+      for (let key of Object.keys(data)) {
+        this.keys.push(key)
+      }
     })
   }
 

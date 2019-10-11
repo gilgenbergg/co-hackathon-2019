@@ -135,6 +135,7 @@ public class COHackathonRESTService {
 
         Map<String, String> links = new HashMap<>();
         links.put("home", "/");
+        links.put("links", "links");
         links.put("login", "login");
         links.put("register", "register");
 
