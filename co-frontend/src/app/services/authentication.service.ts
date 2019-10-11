@@ -39,8 +39,15 @@ export class AuthenticationService {
         .set('Content-Type', 'application/x-www-form-urlencoded')
     }).subscribe((data: any) => {
       console.log(data);
+
+      if (data.success){
+        alert("Registered. Pleas log in now!")
+        window.location.href = ""
+      }
+      else {
+        alert(data.message)
+      }
         
-      window.location.href = ""
     });
   }
 
