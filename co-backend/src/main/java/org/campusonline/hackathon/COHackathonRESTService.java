@@ -8,8 +8,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 
-@Path("example")
-public class COHackathonExampleRESTService {
+@Path("/")
+public class COHackathonRESTService {
 
     @GET
     @Path("time")
