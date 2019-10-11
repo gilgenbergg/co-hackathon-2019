@@ -10,8 +10,10 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import java.util.*;
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    @Path("/")
+@Path("/")
 public class COHackathonRESTService {
         
     @POST
@@ -23,15 +25,46 @@ public class COHackathonRESTService {
                                 @FormParam("email") String email) {
 
         User u = new User (login, password);
+        String message = "";
+        boolean error = false;
 
         User o = UserDao.instance.findUser(login);
 
         if (o != null) {
+            error = true;
+            message = "Username already taken";
+        }
+
+
+        if (login.equals("")) {
+            error = true;
+            message = "Empty username";
+        }
+
+        if (email.equals("")) {
+            error = true;
+            message = "Empty email";
+        }
+
+        String regex = "^(.+)@(.+)\\.(.+)$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+
+
+        if (!matcher.matches()) {
+            error = true;
+            System.out.println(email);
+            message = "Email not valid";
+        }
+
+        if (error) {
 
             final JsonObject jsonObject = Json.createObjectBuilder()
                     .add("success", false)
+                    .add("message", message)
                     .build();
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.OK) // BAD REQUEST, eigentlich
                     .entity(jsonObject)
                     .build();
         }
