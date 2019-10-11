@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../../services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(protected authService: AuthenticationService,
+    private router: Router) { }
 
   ngOnInit() {
+  }
+
+  onClickMe() {
+    this.authService.dummyLogin();
+    this.router.navigate(['home']);
+    window.location.href = ""
   }
 
 }

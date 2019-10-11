@@ -21,6 +21,10 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
+    public dummyLogin() {
+      localStorage.setItem('currentUser', JSON.stringify(true));
+    }
+
     login(username, password) {
         return this.http.post<any>(this.urlbase + `users/authenticate`, { username, password })
             .pipe(map(user => {
