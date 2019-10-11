@@ -17,8 +17,7 @@ export class LoginComponent implements OnInit {
 
   onClickMe() {
     this.authService.dummyLogin();
-    this.router.navigate(['home']);
-    window.location.href = ""
+    this.router.navigate(['links']);
   }
 
 }
