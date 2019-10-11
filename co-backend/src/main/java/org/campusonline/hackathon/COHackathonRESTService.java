@@ -12,34 +12,36 @@ import java.text.SimpleDateFormat;
 @Path("/")
 public class COHackathonRESTService {
 
+
+
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
     @Path("login")
-    public Response newTodo(@FormParam("login") String login,
+    public Response checkLogon(@FormParam("login") String login,
                         @FormParam("password") String password) {
 
-        Map<String, String> fakeBase = new HashMap<>();
-        fakeBase.put("admin", "12345");
-        for (int i=0; i<=10; i++) {
-            System.out.println();
-            i++;
-        }
-        System.out.println(login);
+        User u = UserDao.instance.findUser(login);
+        if (u != null && u.password == password) {
+            // generate token
+            String token = UUID.randomUUID().toString();
+            UserDao.instance.rememberLoginToken(token, u);
 
-        if (fakeBase.containsKey(login)
-            && (fakeBase.get(login).equals(password))
-        ) {
             final JsonObject jsonObject = Json.createObjectBuilder()
-                    .add("Success", login).build();
+                    .add("success", true)
+                    .add("token", token)
+                    .build();
+
             return Response.status(Response.Status.OK)
                     .entity(jsonObject)
                     .build();
         }
         else {
             final JsonObject jsonObject = Json.createObjectBuilder()
-                    .add("Failed authorization", login).build();
-            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                    .add("success", false)
+                    .add("token", "")
+                    .build();
+            return Response.status(Response.Status.UNAUTHORIZED)
                     .entity(jsonObject)
                     .build();
         }
