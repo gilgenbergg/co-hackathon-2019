@@ -11,20 +11,20 @@ import javax.ws.rs.core.Response;
 import java.util.*;
 import java.text.SimpleDateFormat;
 
-@Path("/")
+    @Path("/")
 public class COHackathonRESTService {
-
-
-
+        
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
     @Path("login")
+
     public Response checkLogon(@FormParam("login") String login,
-                        @FormParam("password") String password) {
+                        @FormParam("password") String password,
+                               @FormParam("email") String email ) {
 
         User u = UserDao.instance.findUser(login);
-        if (u != null && u.password == password) {
+        if (u != null && u.password.equals(password)) {
             // generate token
             String token = UUID.randomUUID().toString();
             UserDao.instance.rememberLoginToken(token, u);
