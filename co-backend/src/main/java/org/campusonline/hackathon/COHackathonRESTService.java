@@ -15,18 +15,34 @@ public class COHackathonRESTService {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    @Path("log")
+    @Path("login")
     public Response newTodo(@FormParam("login") String login,
                         @FormParam("password") String password) {
 
-        final JsonObject jsonObject = Json.createObjectBuilder()
-                .add("text",login)
-                .add("password",password)
-                .build();
+        Map<String, String> fakeBase = new HashMap<>();
+        fakeBase.put("admin", "12345");
+        for (int i=0; i<=10; i++) {
+            System.out.println();
+            i++;
+        }
+        System.out.println(login);
 
-        return Response.status(Response.Status.OK)
-                .entity(jsonObject)
-                .build();
+        if (fakeBase.containsKey(login)
+            && (fakeBase.get(login).equals(password))
+        ) {
+            final JsonObject jsonObject = Json.createObjectBuilder()
+                    .add("Success", login).build();
+            return Response.status(Response.Status.OK)
+                    .entity(jsonObject)
+                    .build();
+        }
+        else {
+            final JsonObject jsonObject = Json.createObjectBuilder()
+                    .add("Failed authorization", login).build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                    .entity(jsonObject)
+                    .build();
+        }
     }
 
     @GET
@@ -45,35 +61,6 @@ public class COHackathonRESTService {
 
     }
 
-    @POST
-    @Path("login")
-    @Produces("application/json")
-    public Response recieveLogin(String login) {
-        Map<String, String> fakeBase = new HashMap<>();
-        fakeBase.put("admin", "12345");
-        for (int i=0; i<=10; i++) {
-            System.out.println();
-            i++;
-        }
-        System.out.println(login);
-
-        if (fakeBase.containsKey(login)
-                //&& (fakeBase.get(login).equals(password))
-        ) {
-                final JsonObject jsonObject = Json.createObjectBuilder()
-                        .add("Success", login).build();
-                return Response.status(Response.Status.OK)
-                        .entity(jsonObject)
-                        .build();
-            }
-            else {
-                final JsonObject jsonObject = Json.createObjectBuilder()
-                        .add("Failed authorization", login).build();
-                return Response.status(Response.Status.NOT_ACCEPTABLE)
-                        .entity(jsonObject)
-                        .build();
-            }
-        }
 
     @POST
     @Path("secret")
